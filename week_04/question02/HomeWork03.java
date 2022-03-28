@@ -1,4 +1,4 @@
-package coconut.others;
+package coconut.others.question02;
 
 /**
  * Author: coconut
