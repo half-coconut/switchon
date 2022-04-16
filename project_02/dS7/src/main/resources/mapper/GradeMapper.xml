@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coconut.ds7.mapper.GradeMapper">
+    <!--  【二级缓存】开启mybatis二级缓存  -->
+    <cache/>
+    <!--  重用语句块  -->
+    <sql id="sql_common">
+        name
+        ,description,create_by,update_by,create_time,update_time
+    </sql>
+    <!--    查询所有-->
+    <select id="queryAll" resultType="GradeEntity">
+        select id,<include refid="sql_common"></include> from grade
+    </select>
+    <!--    根据id获取-->
+    <select id="getById" resultType="GradeEntity">
+        select id,<include refid="sql_common"></include> from grade
+        where id = #{id}
+    </select>
+    <!--    新增-->
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into grade (<include refid="sql_common"></include>)values
+        (#{name},#{description},#{createBy},#{updateBy},#{createTime},#{updateTime})
+    </insert>
+    <!--    修改-->
+    <update id="update">
+        update grade
+        set name = #{name},
+        description = #{description},
+        create_by=#{createBy},
+        update_by=#{updateBy},
+        create_time=#{createTime},
+        update_time=#{updateTime}
+        where id = #{id}
+    </update>
+    <!--    删除-->
+    <delete id="delete">
+        delete
+        from grade
+        where id = #{id}
+    </delete>
+    <!--    动态sql语句-->
+    <!--    使用#，是jdbc的带？号的sql语句，在数据库进行传参和拼接-->
+    <!--    使用$ 仅仅是拼接一些字符串的时候，还可以做一些简单的运算，但是这里会sql注入-->
+    <select id="queryForPage" resultType="GradeEntity">
+        select id,
+        <include refid="sql_common"></include>
+        from grade where 1=1
+        <if test="name != null">
+            and name like "%"#{name}"%"
+        </if>
+        <if test="orderByStr != null">
+            order by ${orderByStr}
+        </if>
+        limit ${(pageIndex-1)*pageSize},${pageSize}
+    </select>
+</mapper>

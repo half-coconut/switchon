@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coconut.ds7.mapper.UserMapper">
+    <!--查询公共部分-->
+    <sql id="sql_common">
+        username,name,password,description,create_by,update_by,create_time,update_time
+    </sql>
+    <!--query-->
+    <select id="query" resultType="UserEntity">
+        select
+        id,
+        <include refid="sql_common"></include>
+        from user
+    </select>
+    <!--getById-->
+    <select id="getById" resultType="UserEntity">
+        select
+        id,
+        <include refid="sql_common"></include>
+        from user
+        where id=#{id}
+    </select>
+    <!--create-->
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user (<include refid="sql_common"></include>)values
+        (#{username},#{name},#{password},#{description},#{createBy},#{updateBy},#{createTime},#{updateTime})
+    </insert>
+    <!--update-->
+    <update id="update">
+        update user
+        set username = #{username},
+        name = #{name},
+        password=#{password},
+        description = #{description},
+        update_by=#{updateBy},
+        update_time=#{updateTime}
+        where id = #{id}
+    </update>
+    <!--delete-->
+    <delete id="delete">
+        delete from user
+        where id=#{id}
+    </delete>
+    <!--动态查询-->
+    <select id="queryForPage" resultType="UserEntity">
+        select id,
+        <include refid="sql_common"></include>
+        from user where 1=1
+        <if test="username != null">
+            and username like "%"#{username}"%"
+        </if>
+        <if test="name != null">
+            and name like "%"#{name}"%"
+        </if>
+        <if test="orderByStr != null">
+            order by ${orderByStr}
+        </if>
+        limit ${(pageIndex-1)*pageSize},${pageSize}
+    </select>
+    <!--getByUsername-->
+    <select id="getByUsername" resultType="UserEntity">
+        select
+        id,
+        <include refid="sql_common"></include>
+        from user
+        where username = #{username}
+    </select>
+</mapper>

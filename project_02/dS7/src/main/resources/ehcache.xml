@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
+    <!--
+        name:缓存集名称
+        maxElementsInMemory:最大缓存数目
+        overflowToDisk：是否保存到磁盘
+        maxElementsInDisk:硬盘最大缓存数目
+        eternal:缓存对象是否永久有效，如果为true，则过期时间无效
+        timeToLiveSeconds：设置对象在失效前的允许存活时间，0为无限大，需要external=false才有效
+    -->
+
+    <defaultCache
+            maxElementsInMemory="10000"
+            overflowToDisk="false"
+            maxElementsOnDisk="100000"
+            eternal="false"
+            timeToLiveSeconds="0"/>
+
+    <cache
+            name="version_cache"
+            maxEntriesLocalHeap="2000"
+            eternal="false"
+            timeToLiveSeconds="30"/>
+    <cache
+            name="user_cache"
+            maxEntriesLocalHeap="2000"
+            eternal="false"
+            timeToLiveSeconds="60"/>
+</ehcache>
