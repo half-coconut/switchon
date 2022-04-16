@@ -25,7 +25,7 @@ public class XxlJobUtil {
     @Autowired
     HttpSession httpSession;
 
-    @Value("${spring.application.name:柠檬班接口自动化测试平台}")
+    @Value("${spring.application.name}")
     String springApplicationName;
     @Value("${xxl.job.admin.address}")
     String xxlJobAdminAddress;
